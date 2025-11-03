@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyBook - Modern Flight Booking</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-plane-departure logo-icon"></i>
+                <span class="logo-text">SkyBook</span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="showPage('home')">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="showPage('flights')">
+                        <i class="fas fa-plane"></i>
+                        <span>Flights</span>
+                    </a>
+                </li>
+                <li class="nav-item" id="bookingsNav" style="display: none;">
+                    <a href="#" class="nav-link" onclick="showPage('bookings')">
+                        <i class="fas fa-ticket-alt"></i>
+                        <span>My Bookings</span>
+                    </a>
+                </li>
+                <li class="nav-item" id="profileNav" style="display: none;">
+                    <a href="#" class="nav-link" onclick="showPage('profile')">
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li class="nav-item" id="logoutNav" style="display: none;">
+                    <a href="#" class="nav-link" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+                <li class="nav-item" id="authNav">
+                    <a href="#" class="nav-link auth-btn" onclick="showPage('auth')">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Login</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="main-container">
+        <!-- Home Page -->
+        <section id="home" class="page active">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        <span class="title-main">Discover Your Next</span>
+                        <span class="title-highlight">Adventure</span>
+                    </h1>
+                    <p class="hero-subtitle">Book flights to anywhere in the world with confidence</p>
+                    <button class="btn btn-hero" onclick="showPage('flights')">
+                        <i class="fas fa-search"></i>
+                        Search Flights
+                    </button>
+                </div>
+                <div class="hero-features">
+                    <div class="feature-card">
+                        <i class="fas fa-shield-alt feature-icon"></i>
+                        <h3>Secure Booking</h3>
+                        <p>Your data is protected with industry-leading security</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-tags feature-icon"></i>
+                        <h3>Best Prices</h3>
+                        <p>Find the most competitive prices for your flights</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-headset feature-icon"></i>
+                        <h3>24/7 Support</h3>
+                        <p>Our team is always here to help you</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Authentication Page -->
+        <section id="auth" class="page">
+            <div class="auth-container">
+                <!-- Login Form -->
+                <div class="auth-form" id="loginForm">
+                    <div class="auth-header">
+                        <i class="fas fa-user-circle auth-icon"></i>
+                        <h2>Welcome Back</h2>
+                        <p>Sign in to continue your journey</p>
+                    </div>
+                    <form onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <label for="loginUsername">
+                                <i class="fas fa-user"></i>
+                                Username or Email
+                            </label>
+                            <input type="text" id="loginUsername" placeholder="Enter your username or email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">
+                                <i class="fas fa-lock"></i>
+                                Password
+                            </label>
+                            <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Sign In
+                        </button>
+                        <p class="form-toggle">
+                            Don't have an account? 
+                            <a href="#" onclick="toggleAuthForm()">Create one now</a>
+                        </p>
+                    </form>
+                    <div id="loginError" class="error-message"></div>
+                </div>
+
+                <!-- Registration Form -->
+                <div class="auth-form" id="registerForm" style="display: none;">
+                    <div class="auth-header">
+                        <i class="fas fa-user-plus auth-icon"></i>
+                        <h2>Create Account</h2>
+                        <p>Start your travel journey with us</p>
+                    </div>
+                    <form onsubmit="handleRegister(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="regFirstName">
+                                    <i class="fas fa-user"></i>
+                                    First Name
+                                </label>
+                                <input type="text" id="regFirstName" placeholder="John" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="regLastName">
+                                    <i class="fas fa-user"></i>
+                                    Last Name
+                                </label>
+                                <input type="text" id="regLastName" placeholder="Doe" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="regUsername">
+                                <i class="fas fa-at"></i>
+                                Username
+                            </label>
+                            <input type="text" id="regUsername" placeholder="Choose a username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="regEmail">
+                                <i class="fas fa-envelope"></i>
+                                Email Address
+                            </label>
+                            <input type="email" id="regEmail" placeholder="your.email@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="regPhone">
+                                <i class="fas fa-phone"></i>
+                                Phone Number
+                            </label>
+                            <input type="tel" id="regPhone" placeholder="+1 (555) 123-4567">
+                        </div>
+                        <div class="form-group">
+                            <label for="regPassword">
+                                <i class="fas fa-lock"></i>
+                                Password
+                            </label>
+                            <input type="password" id="regPassword" placeholder="Create a strong password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i class="fas fa-user-plus"></i>
+                            Create Account
+                        </button>
+                        <p class="form-toggle">
+                            Already have an account? 
+                            <a href="#" onclick="toggleAuthForm()">Sign in here</a>
+                        </p>
+                    </form>
+                    <div id="registerError" class="error-message"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Flights Page -->
+        <section id="flights" class="page">
+            <div class="flights-container">
+                <div class="page-header">
+                    <h2>
+                        <i class="fas fa-plane-departure"></i>
+                        Search Flights
+                    </h2>
+                    <p>Find the perfect flight for your next journey</p>
+                </div>
+                
+                <!-- Search Form -->
+                <div class="search-card">
+                    <div class="search-form">
+                        <div class="form-group">
+                            <label for="departureCity">
+                                <i class="fas fa-plane-departure"></i>
+                                From
+                            </label>
+                            <input type="text" id="departureCity" placeholder="City or Airport">
+                        </div>
+                        <div class="form-group">
+                            <label for="arrivalCity">
+                                <i class="fas fa-plane-arrival"></i>
+                                To
+                            </label>
+                            <input type="text" id="arrivalCity" placeholder="City or Airport">
+                        </div>
+                        <div class="form-group">
+                            <label for="departureDate">
+                                <i class="fas fa-calendar-alt"></i>
+                                Date
+                            </label>
+                            <input type="date" id="departureDate">
+                        </div>
+                        <button class="btn btn-primary btn-search" onclick="handleSearchFlights()">
+                            <i class="fas fa-search"></i>
+                            Search Flights
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Flights List -->
+                <div id="flightsList" class="flights-list">
+                    <!-- Flights will be loaded here -->
+                </div>
+
+                <div id="flightsError" class="error-message"></div>
+            </div>
+        </section>
+
+        <!-- Booking Form Page -->
+        <section id="booking" class="page">
+            <div class="booking-container">
+                <div class="page-header">
+                    <h2>
+                        <i class="fas fa-ticket-alt"></i>
+                        Complete Your Booking
+                    </h2>
+                    <p>Review flight details and select your seat</p>
+                </div>
+                <div id="bookingDetails" class="booking-details-card">
+                    <!-- Flight details will be shown here -->
+                </div>
+                <form onsubmit="handleBooking(event)" class="booking-form">
+                    <div class="form-group">
+                        <label for="seatNumber">
+                            <i class="fas fa-chair"></i>
+                            Select Seat
+                        </label>
+                        <input type="text" id="seatNumber" placeholder="e.g., 12A, 5B" required>
+                        <small class="form-help">Choose your preferred seat (e.g., window: A/F, aisle: C/D)</small>
+                    </div>
+                    <div class="booking-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-check-circle"></i>
+                            Confirm Booking
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="showPage('flights')">
+                            <i class="fas fa-arrow-left"></i>
+                            Back to Flights
+                        </button>
+                    </div>
+                </form>
+                <div id="bookingError" class="error-message"></div>
+            </div>
+        </section>
+
+        <!-- Booking Confirmation Page -->
+        <section id="confirmation" class="page">
+            <div class="confirmation-container">
+                <div class="confirmation-card">
+                    <div class="confirmation-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h2>Booking Confirmed!</h2>
+                    <p>Your flight has been successfully booked</p>
+                    <div id="confirmationDetails" class="confirmation-details">
+                        <!-- Confirmation details will be shown here -->
+                    </div>
+                    <div class="confirmation-actions">
+                        <button class="btn btn-primary" onclick="showPage('bookings')">
+                            <i class="fas fa-ticket-alt"></i>
+                            View My Bookings
+                        </button>
+                        <button class="btn btn-secondary" onclick="showPage('home')">
+                            <i class="fas fa-home"></i>
+                            Go to Home
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- My Bookings Page -->
+        <section id="bookings" class="page">
+            <div class="bookings-container">
+                <div class="page-header">
+                    <h2>
+                        <i class="fas fa-ticket-alt"></i>
+                        My Bookings
+                    </h2>
+                    <p>Manage your flight reservations</p>
+                </div>
+                <div id="bookingsList" class="bookings-list">
+                    <!-- User bookings will be loaded here -->
+                </div>
+                <div id="bookingsError" class="error-message"></div>
+            </div>
+        </section>
+
+        <!-- Profile Page -->
+        <section id="profile" class="page">
+            <div class="profile-container">
+                <div class="page-header">
+                    <h2>
+                        <i class="fas fa-user-circle"></i>
+                        My Profile
+                    </h2>
+                    <p>Manage your account information</p>
+                </div>
+                <div id="profileInfo" class="profile-card">
+                    <!-- Profile information will be loaded here -->
+                </div>
+                <form onsubmit="handleProfileUpdate(event)" class="profile-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="profileFirstName">
+                                <i class="fas fa-user"></i>
+                                First Name
+                            </label>
+                            <input type="text" id="profileFirstName">
+                        </div>
+                        <div class="form-group">
+                            <label for="profileLastName">
+                                <i class="fas fa-user"></i>
+                                Last Name
+                            </label>
+                            <input type="text" id="profileLastName">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="profilePhone">
+                            <i class="fas fa-phone"></i>
+                            Phone Number
+                        </label>
+                        <input type="tel" id="profilePhone">
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i>
+                        Update Profile
+                    </button>
+                </form>
+                <div id="profileError" class="error-message"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>
+                    <i class="fas fa-plane-departure"></i>
+                    SkyBook
+                </h3>
+                <p>Your trusted partner for flight bookings worldwide</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#" onclick="showPage('flights')">Search Flights</a></li>
+                    <li><a href="#" onclick="showPage('bookings')">My Bookings</a></li>
+                    <li><a href="#" onclick="showPage('profile')">My Profile</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <p><i class="fas fa-envelope"></i> support@skybook.com</p>
+                <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 SkyBook Flight Booking System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/flights.js"></script>
+    <script src="js/booking.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
